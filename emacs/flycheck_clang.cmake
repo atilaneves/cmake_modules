@@ -18,6 +18,13 @@ function(get_property_string_list dir property outvarname)
   set(${outvarname} ${path_list} PARENT_SCOPE)
 endfunction()
 
+# Adds -I and -D to include directories and compiler defines
+function(get_raw_flags includes defines outvarname)
+  string(REGEX REPLACE "\"[^ ]" "\"-I" raw_includes ${includes})
+  string(REGEX REPLACE "\"[^ ]" "\"-D" raw_defines ${defines})
+  set(${outvarname} "${raw_includes} ${raw_defines}" PARENT_SCOPE)
+endfunction()
+
 
 # Get include directories and compiler definitions from CMake itself
 # and write an Emacs file to pass these to clang when it executes
@@ -25,6 +32,8 @@ endfunction()
 function(write_dir_locals_el dir)
   get_property_string_list(${dir} INCLUDE_DIRECTORIES INCLUDE_PATHS)
   get_property_string_list(${dir} COMPILE_DEFINITIONS DEFINITIONS)
+  get_raw_flags(${INCLUDE_PATHS} ${DEFINITIONS} AC_CLANG_FLAGS)
+
   set(EMACS_DIR_LOCALS ${dir}/.dir-locals.el)
 
   file(WRITE ${EMACS_DIR_LOCALS} ";;; Directory Local Variables
@@ -32,6 +41,7 @@ function(write_dir_locals_el dir)
 
 ((nil
   (flycheck-clang-include-path ${INCLUDE_PATHS})
-  (flycheck-clang-definitions ${DEFINITIONS})))
+  (flycheck-clang-definitions ${DEFINITIONS})
+  (ac-clang-flags ${AC_CLANG_FLAGS})))
 ")
 endfunction()
