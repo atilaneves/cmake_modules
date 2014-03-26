@@ -30,7 +30,7 @@ function(write_dir_locals_el dir)
   file(WRITE ${EMACS_DIR_LOCALS} ";;; Directory Local Variables
 ;;; See Info node `(emacs) Directory Variables' for more information.
 
-((c++-mode
+((nil
   (flycheck-clang-include-path ${INCLUDE_PATHS})
   (flycheck-clang-definitions ${DEFINITIONS})))
 ")
