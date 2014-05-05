@@ -3,7 +3,14 @@ CMake support for Emacs
 
 This is a module to use CMake's knowledge of the build system to integrate with development within Emacs.
 Calling the function `write_dir_locals_el` will write out a file called `.dir-locals.el` in that
-directory setting variables for Emacs to use. This allows:
+directory setting variables for Emacs to use. Include this in the CMakeLists.txt file for that
+directory:
+
+    include(flycheck_clang.cmake)
+    write_dir_locals_el(${CMAKE_CURRENT_SOURCE_DIR})
+
+
+This allows:
 
 1. Flycheck to work correctly with clang
 2. Autocomplete to work correctly with clang
