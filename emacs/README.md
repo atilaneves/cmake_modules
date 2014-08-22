@@ -1,6 +1,8 @@
 CMake support for Emacs
 =======================
 
+My alternative, non-invasive project: [cmake-json](https://github.com/atilaneves/cmake-json).
+
 This is a module to use CMake's knowledge of the build system to integrate with development within Emacs.
 Calling the function `write_dir_locals_el` will write out a file called `.dir-locals.el` in that
 directory setting variables for Emacs to use. Include this in the CMakeLists.txt file for that
